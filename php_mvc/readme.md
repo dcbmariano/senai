@@ -5,16 +5,16 @@ Contém os códigos fonte dos exemplos construídos nas aulas de PHP com MVC e P
 No banco de dados, foi utilizada uma base de dados chamada "teste". 
 
 Comandos SQL:
-ˋˋˋ
+~~~sql
 create database teste;
 use teste;
-ˋˋˋ
+~~~
 
 Além disso, foi utilizada uma tabela denominada "alunos":
-ˋˋˋ
+~~~sql
  create table alunos(
      id int not null AUTO_INCREMENT, 
      nome varchar(255),
      PRIMARY KEY(id)
  )
-ˋˋˋ
+~~~
