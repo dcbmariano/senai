@@ -1,0 +1,35 @@
+header{
+	text-align:center;
+	padding:10px;
+	background: #222;
+}
+
+header a{
+	color: gold;
+}
+
+#conteudo{
+	margin: 10px 0;
+	padding: 15px;
+}
+
+footer{
+	text-align: center;
+	padding: 10px;
+	color: #777;
+	background: #ccc;
+}
+
+.inserir label{
+	display: block;
+	margin-top: 10px;
+}
+
+.inserir textarea, .inserir input[type='text']{
+	display: block;
+	min-width: 500px;
+	margin-bottom: 10px;
+	border:  1px solid #ccc;
+	border-radius: 5px;
+	padding: 10px;
+}
