@@ -2,9 +2,6 @@
 
 Neste estudo de caso, apresentamos um site CRUD completo que permite a leitura, gravação, atualização e deleção de dados.
 
-Nosso estudo de caso compreende um site de receitas de bolos.
-
-
 ## Especificações
 
 Foi utilizado o framework Laravel 9.x, além do sistema de gerenciamento de bancos de dados SQLite.
@@ -12,8 +9,23 @@ Foi utilizado o framework Laravel 9.x, além do sistema de gerenciamento de banc
 - Laravel 9.x: documentação disponível em https://laravel.com/docs/9.x
 - SQLite: documentação disponível em https://www.sqlite.org/index.html
 
+## Modo de uso
+
+Faça o download do diretório completo. 
+
+Acesse o diretório pelo terminal e execute:
+
+    php artisan serve
+
+Caso tenha problemas nesse processo, consulte a documentação de deployment do Laravel em https://laravel.com/docs/9.x/deployment
+
 
 ## Exemplo de receita
+
+Nosso estudo de caso compreende um site de receitas de bolos.
+Acesse em: http://localhost:8000/bolo
+
+*Exemplo de uso: insert*
 
 Bolo de Goiaba
 
