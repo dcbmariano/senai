@@ -47,3 +47,7 @@ MODO DE PREPARO
  Retire o bolo do forno e coloque a cobertura. 
  
  Deleite-se!
+
+## Licença de uso
+
+Este código está disponibilizado sob a licença MIT (consulte o arquivo LICENSE para mais detalhes). Em resumo, você pode copiar, modificar, disponibilizar e utilizar qualquer parte desse código sem quaisquer impedimentos ou restrições, desde que cite que são de autoria de "Diego Mariano (www.diegomariano.com)".
