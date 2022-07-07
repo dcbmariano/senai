@@ -54,6 +54,9 @@ class Livros extends BaseController
         */
 
         header('Access-Control-Allow-Origin: *'); 
+        $request = \Config\Services::request();
+        $titulo = $request->getVar('titulo');
+        dd($something);
 
         // paginação
         $itens = isset($_GET['itens_por_pagina'])?$_GET['itens_por_pagina']:10;
