@@ -54,9 +54,6 @@ class Livros extends BaseController
         */
 
         header('Access-Control-Allow-Origin: *'); 
-        $request = \Config\Services::request();
-        $titulo = $request->getVar('titulo');
-        dd($something);
 
         // paginação
         $itens = isset($_GET['itens_por_pagina'])?$_GET['itens_por_pagina']:10;
@@ -64,6 +61,10 @@ class Livros extends BaseController
 
         // busca por título, autor ou isbn
         $titulo = isset($_GET['titulo'])?$_GET['titulo']:'';
+        // Outra forma de obter o título:
+        // $request = \Config\Services::request();
+        // $titulo = $request->getVar('titulo');
+
         $isbn = isset($_GET['isbn'])?$_GET['isbn']:'';
         $autor = isset($_GET['autor'])?$_GET['autor']:'';
         
