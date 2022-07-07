@@ -6,9 +6,10 @@ Sistema de consulta de livros
 - Composer
 
 ## Instalação
-Execute no terminal:
+- Renomeie o arquivo <code>env</code> para <code>.env</code>.
+- A seguir, execute no terminal:<br>
 <code>composer install</code>
 
 ## Testando => porta: 7777
-No terminal, execute:
+No terminal, execute:<br>
 <code>php spark serve --port 7777</code>
