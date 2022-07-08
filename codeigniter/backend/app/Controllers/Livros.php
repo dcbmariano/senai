@@ -16,9 +16,9 @@ class Livros extends BaseController
 
     public function getListar($paginacao = 1, $ordem = 'asc'){
         /* 
-        *  Uso: /listar/[página]/[ordem]/[itens] 
-        *  Exemplo: /listar/1/desc/1
-        *  Explicação: Retorna o último item
+        *  Uso: /listar/[página]/[ordem]
+        *  Exemplo: /listar/1/desc
+        *  Explicação: Retorna os 10 últimos itens
         */
 
         header('Access-Control-Allow-Origin: *');
@@ -46,47 +46,113 @@ class Livros extends BaseController
 
     public function getBuscar($query){
         /* 
-        *  Realiza uma busca por:
-        *  titulo, autor, isbn ou período (ano_inicio e ano_fim)
-        *  Exemplo: http://localhost:8080/livros/buscar/
-        *            query?itens_por_pagina & titulo=sociedade do anel 
-        *            & isbn=123 & autor=tolkien & ano_inicio=2000 & ano_fim=2020
+            *  Realiza uma busca por:
+            *  titulo, autor, isbn ou período (ano_inicio e ano_fim)
+            *  Exemplo: http://localhost:7777/livros/buscar/
+            *    query?itens_por_pagina=10 & titulo=sociedade do anel 
+            *    & isbn=123 & autor=tolkien & ano_inicio=2000 & ano_fim=2020
         */
 
-        header('Access-Control-Allow-Origin: *'); 
+        header('Access-Control-Allow-Origin: *');
 
         // paginação
         $itens = isset($_GET['itens_por_pagina'])?$_GET['itens_por_pagina']:10;
         $pagina = isset($_GET['pagina'])?$_GET['pagina']:1;
-
-        // busca por título, autor ou isbn
+       
+        // busca por titulo, autor e isbn
         $titulo = isset($_GET['titulo'])?$_GET['titulo']:'';
-        // Outra forma de obter o título:
-        // $request = \Config\Services::request();
-        // $titulo = $request->getVar('titulo');
-
-        $isbn = isset($_GET['isbn'])?$_GET['isbn']:'';
         $autor = isset($_GET['autor'])?$_GET['autor']:'';
-        
-        // período de busca - padrão 0 até ano atual
+        $isbn = isset($_GET['isbn'])?$_GET['isbn']:'';
+
+        // período
         $ano_inicio = isset($_GET['ano_inicio'])?$_GET['ano_inicio']:0;
         $ano_fim = isset($_GET['ano_fim'])?$_GET['ano_fim']:date('Y');
 
-        // cláusulas where
+        // cláusulas where
         $periodo = ['ano >='=>$ano_inicio, 'ano <='=>$ano_fim];
         $busca = ['titulo'=>$titulo, 'autor'=>$autor, 'isbn'=>$isbn];
 
-        // conexão com o banco
         $livrosModel = new LivrosModel();
 
         $dados = $livrosModel
-            ->where($periodo)
-            ->like($busca)
-            ->findAll($itens, $pagina*$itens-$itens);
-
+                    ->where($periodo)
+                    ->like($busca)
+                    ->findAll($itens, $pagina*$itens-$itens);
+        
         return $this->respond($dados, 200);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // public function getBuscar($query){
+    //     /* 
+    //     *  Realiza uma busca por:
+    //     *  titulo, autor, isbn ou período (ano_inicio e ano_fim)
+    //     *  Exemplo: http://localhost:8080/livros/buscar/
+    //     *            query?itens_por_pagina & titulo=sociedade do anel 
+    //     *            & isbn=123 & autor=tolkien & ano_inicio=2000 & ano_fim=2020
+    //     */
+
+    //     header('Access-Control-Allow-Origin: *'); 
+
+    //     // paginação
+    //     $itens = isset($_GET['itens_por_pagina'])?$_GET['itens_por_pagina']:10;
+    //     $pagina = isset($_GET['pagina'])?$_GET['pagina']:1;
+
+    //     // busca por título, autor ou isbn
+    //     $titulo = isset($_GET['titulo'])?$_GET['titulo']:'';
+    //     // Outra forma de obter o título:
+    //     // $request = \Config\Services::request();
+    //     // $titulo = $request->getVar('titulo');
+
+    //     $isbn = isset($_GET['isbn'])?$_GET['isbn']:'';
+    //     $autor = isset($_GET['autor'])?$_GET['autor']:'';
+        
+    //     // período de busca - padrão 0 até ano atual
+    //     $ano_inicio = isset($_GET['ano_inicio'])?$_GET['ano_inicio']:0;
+    //     $ano_fim = isset($_GET['ano_fim'])?$_GET['ano_fim']:date('Y');
+
+    //     // cláusulas where
+    //     $periodo = ['ano >='=>$ano_inicio, 'ano <='=>$ano_fim];
+    //     $busca = ['titulo'=>$titulo, 'autor'=>$autor, 'isbn'=>$isbn];
+
+    //     // conexão com o banco
+    //     $livrosModel = new LivrosModel();
+
+    //     $dados = $livrosModel
+    //         ->where($periodo)
+    //         ->like($busca)
+    //         ->findAll($itens, $pagina*$itens-$itens);
+
+    //     return $this->respond($dados, 200);
+
+    // }
 
     public function postInserir(){
         /* 
