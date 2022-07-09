@@ -4,18 +4,17 @@ namespace App\Controllers;
 
 class Home extends BaseController
 {
-    public function index(){
-
-        // página inicial
-        $page = 1;
+    public function index()
+    {        
+        $page = 1; 
         $data['anterior'] = $page;
         $data['proxima'] = $page+1;
         $data['page'] = $page;
 
-        // determinando a última página
-        $raw = file_get_contents(BACKEND_URL."livros/listar/1/desc");
+        $raw = file_get_contents(BACKEND_URL.'livros/listar/1/desc');
         $ultima_pagina = (array)json_decode($raw);
         $ultimo_id = $ultima_pagina[0]->id;
+
         $data['fim'] = intval($ultimo_id/10)+1;
 
         return view('home', $data);
@@ -32,7 +31,7 @@ class Home extends BaseController
         $data['proxima'] = $page+1;
         $data['page'] = $page;
 
-        // determinando a última página
+        // determinando a última página
         $raw = file_get_contents(BACKEND_URL."livros/listar/1/desc");
         $ultima_pagina = (array)json_decode($raw);
         $ultimo_id = $ultima_pagina[0]->id;
@@ -42,7 +41,6 @@ class Home extends BaseController
     }
 
     public function editar($id){
-
         $raw = file_get_contents(BACKEND_URL."livros/livro/$id");
         $data = (array)json_decode($raw);
 

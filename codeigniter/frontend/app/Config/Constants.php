@@ -1,6 +1,5 @@
-<?php 
-
-$backend = "http://localhost:7777/";
+<?php
+$backend = 'http://localhost:7777/';
 define('BACKEND_URL', $backend);
 
 /*

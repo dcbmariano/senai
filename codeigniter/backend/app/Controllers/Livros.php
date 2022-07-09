@@ -83,93 +83,23 @@ class Livros extends BaseController
 
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // public function getBuscar($query){
-    //     /* 
-    //     *  Realiza uma busca por:
-    //     *  titulo, autor, isbn ou período (ano_inicio e ano_fim)
-    //     *  Exemplo: http://localhost:8080/livros/buscar/
-    //     *            query?itens_por_pagina & titulo=sociedade do anel 
-    //     *            & isbn=123 & autor=tolkien & ano_inicio=2000 & ano_fim=2020
-    //     */
-
-    //     header('Access-Control-Allow-Origin: *'); 
-
-    //     // paginação
-    //     $itens = isset($_GET['itens_por_pagina'])?$_GET['itens_por_pagina']:10;
-    //     $pagina = isset($_GET['pagina'])?$_GET['pagina']:1;
-
-    //     // busca por título, autor ou isbn
-    //     $titulo = isset($_GET['titulo'])?$_GET['titulo']:'';
-    //     // Outra forma de obter o título:
-    //     // $request = \Config\Services::request();
-    //     // $titulo = $request->getVar('titulo');
-
-    //     $isbn = isset($_GET['isbn'])?$_GET['isbn']:'';
-    //     $autor = isset($_GET['autor'])?$_GET['autor']:'';
-        
-    //     // período de busca - padrão 0 até ano atual
-    //     $ano_inicio = isset($_GET['ano_inicio'])?$_GET['ano_inicio']:0;
-    //     $ano_fim = isset($_GET['ano_fim'])?$_GET['ano_fim']:date('Y');
-
-    //     // cláusulas where
-    //     $periodo = ['ano >='=>$ano_inicio, 'ano <='=>$ano_fim];
-    //     $busca = ['titulo'=>$titulo, 'autor'=>$autor, 'isbn'=>$isbn];
-
-    //     // conexão com o banco
-    //     $livrosModel = new LivrosModel();
-
-    //     $dados = $livrosModel
-    //         ->where($periodo)
-    //         ->like($busca)
-    //         ->findAll($itens, $pagina*$itens-$itens);
-
-    //     return $this->respond($dados, 200);
-
-    // }
-
     public function postInserir(){
         /* 
         *  Insere um item no banco de dados
-        *  Requer: 
-        *   titulo, autor, isbn, paginas, ano
+        *  Requer:
+        *     titulo, autor, isbn, paginas, ano
         */
+        $request = \Config\Services::request();
 
-        header('Access-Control-Allow-Origin: *'); 
+        header('Access-Control-Allow-Origin: *');
 
-        $titulo = $_POST['titulo']; 
-        $autor = $_POST['autor'];
-        $isbn = $_POST['isbn'];
-        $paginas = $_POST['paginas'];
-        $ano = $_POST['ano'];
-        
-        // grava dados no banco
+        $titulo = $request->getVar('titulo');
+        $autor = $request->getVar('autor');
+        $isbn = $request->getVar('isbn');
+        $paginas = $request->getVar('paginas');
+        $ano = $request->getVar('ano');
+
+
         $livrosModel = new LivrosModel();
 
         $livrosModel->save([
@@ -179,21 +109,27 @@ class Livros extends BaseController
             'paginas'=>$paginas,
             'ano'=>$ano
         ]);
-        
+
         $this->respondCreated($livrosModel->getInsertID());
+
     }
 
     public function postDeletar(){
         /* Deleta uma linha do banco com base no id passado */
-    
-        $id = $_POST['id'];
-    
+
+        # $id = $_POST['id'];
+        $request = \Config\Services::request();
+
+        $id = $request->getVar('id');
+
         $livrosModel = new LivrosModel();
-        $livrosModel->delete(['id' => $id]);
-    
+
+        $livrosModel->delete(['id'=>$id]);
+
         $this->respondDeleted($id);
-    
+
     }
+
     private function autoriza($token){
 
         // criptografia simples base64
@@ -213,30 +149,30 @@ class Livros extends BaseController
             exit();
         }
     }
+
     public function postEditar(){
         /* 
-        *  Atualiza um item no banco de dados
+        *  Atualizar um item do banco de dados
         *  Requer: id
         *  Opcional: titulo, autor, isbn, paginas, ano
         */
 
-        $id = $_POST['id'];
-
-        $livrosModel = new LivrosModel();
+        $request = \Config\Services::request();
+        $id = $request->getVar('id');
 
         // autorização básica usando tokens
         // TOKEN-EXEMPLO = "Bearer 32f4a14b5add613a9ee6981b7dfe3bf"
         // CHAVE-EQUIVALENTE = "QmVhcmVyIDMyZjRhMTRiNWFkZDYxM2E5ZWU2OTgxYjdkZmUzYmY="
-
-        if(isset($_SERVER["HTTP_AUTHORIZATION"])){
-            $token = trim($_SERVER["HTTP_AUTHORIZATION"]);
-        } else {
-            $token = $_POST['token'];
+        if(isset($_SERVER['HTTP_AUTHORIZATION'])){
+            $token = trim($_SERVER['HTTP_AUTHORIZATION']);
+        }else{
+            $token = $request->getVar('token');
         }
 
-        
         Livros::autoriza($token);
-
+        
+        $livrosModel = new LivrosModel();
+        
         // busca dados originais pelo id
         $dados_antigos = $livrosModel->find($id);
 
@@ -246,28 +182,25 @@ class Livros extends BaseController
         }
 
         // novos valores
-        $titulo = $_POST['titulo'];
-        $autor = $_POST['autor'];
-        $isbn = $_POST['isbn'];
-        $paginas = $_POST['paginas'];
-        $ano = $_POST['ano'];
-        $agora = new Time('now');
+        $titulo = $request->getVar('titulo');
+        $autor = $request->getVar('autor');
+        $isbn = $request->getVar('isbn');
+        $paginas = $request->getVar('paginas');
+        $ano = $request->getVar('ano');
 
         $dados = [
             'titulo'=>$titulo,
             'autor'=>$autor,
             'isbn'=>$isbn,
             'paginas'=>$paginas,
-            'ano'=>$ano,
-            'updated_at'=>$agora
-        ];        
+            'ano'=>$ano
+        ];
 
         $livrosModel->update($id, $dados);
 
-        // resposta genérica
         $this->respond($dados, 200);
+
     }
-    
 
     // public function getPovoar_banco(){
     //     /* 

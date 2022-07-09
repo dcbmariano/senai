@@ -36,17 +36,16 @@ $routes->set404Override();
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
-
-$routes->get('pagina/(:num)', 'Home::pagina/$1');
+$routes->get('/pagina/(:num)', 'Home::pagina/$1');
 
 $routes->get('/inserir', 'Home::inserir');
 $routes->post('/inserir', 'ConectaAPI::inserir');
 
-$routes->get('editar/(:num)', 'Home::editar/$1');
+$routes->get('/editar/(:num)', 'Home::editar/$1');
 $routes->post('/editar', 'ConectaAPI::editar');
 
-$routes->get('deletar/(:num)', 'Home::deletar/$1');
-$routes->post('deletar', 'ConectaAPI::deletar');
+$routes->get('/deletar/(:num)', 'Home::deletar/$1');
+$routes->post('/deletar', 'ConectaAPI::deletar');
 
 /*
  * --------------------------------------------------------------------
